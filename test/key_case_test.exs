@@ -42,4 +42,31 @@ defmodule KeyCaseTest do
       }
     end
   end
+
+  describe ".convert" do
+    test "converts the keys based on the function provided" do
+      converter = fn key -> key <> ".changed" end
+      input = %{"total_amount" => 500}
+      assert KeyCase.convert(input, converter) == %{
+        "total_amount.changed" => 500
+      }
+    end
+
+    test "supports nested maps" do
+      converter = fn key -> key <> ".changed" end
+      input = %{
+        "contact_details" => %{
+          "phone_number" => "555-55-55",
+          "email_address" => "email@example.com"
+        }
+      }
+
+      assert KeyCase.convert(input, converter) == %{
+        "contact_details.changed" => %{
+          "phone_number.changed" => "555-55-55",
+          "email_address.changed" => "email@example.com"
+        }
+      }
+    end
+  end
 end
