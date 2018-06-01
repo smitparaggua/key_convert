@@ -14,6 +14,11 @@ defmodule KeyCaseTest do
         "contact_info" => %{"email_address" => "email@example.com"}
       }
     end
+
+    test "does not replace dots in the key name" do
+      input = %{"email@example.com" => :email}
+      assert KeyCase.snake_case(input) == input
+    end
   end
 
   describe ".camelize" do

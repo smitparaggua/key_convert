@@ -1,42 +1,45 @@
 defmodule KeyCase do
   def snake_case(map) when is_map(map) do
-    snake_case_key(map)
+    do_snake_case(map)
   end
 
-  defp snake_case_key(map) when is_map(map) do
+  defp do_snake_case(map) when is_map(map) do
     for {key, value} <- map, into: %{} do
       case is_map(value) do
-        true -> {snake_case_key(key), snake_case_key(value)}
-        false -> {snake_case_key(key), value}
+        true -> {do_snake_case(key), do_snake_case(value)}
+        false -> {do_snake_case(key), value}
       end
     end
   end
 
-  defp snake_case_key(atom) when is_atom(atom) do
-    atom |> to_string() |> snake_case_key()
+  defp do_snake_case(atom) when is_atom(atom) do
+    atom |> to_string() |> do_snake_case()
   end
 
-  defp snake_case_key(string) when is_binary(string) do
-    Macro.underscore(string)
+  defp do_snake_case(string) when is_binary(string) do
+    string
+    |> String.split(".")
+    |> Enum.map(&Macro.underscore/1)
+    |> Enum.join(".")
   end
 
-  defp snake_case_key(key), do: key
+  defp do_snake_case(key), do: key
 
-  def camelize(map) when is_map(map), do: camelize_key(map)
+  def camelize(map) when is_map(map), do: do_camelize(map)
 
-  defp camelize_key(map) when is_map(map) do
+  defp do_camelize(map) when is_map(map) do
     for {key, value} <- map, into: %{} do
-      {camelize_key(key), camelize_key(value)}
+      {do_camelize(key), do_camelize(value)}
     end
   end
 
-  defp camelize_key(atom) when is_atom(atom) do
-    atom |> to_string() |> camelize_key()
+  defp do_camelize(atom) when is_atom(atom) do
+    atom |> to_string() |> do_camelize()
   end
 
-  defp camelize_key(string) when is_binary(string) do
+  defp do_camelize(string) when is_binary(string) do
     String.first(string) <> (string |> Macro.camelize() |> String.slice(1..-1))
   end
 
-  defp camelize_key(key), do: key
+  defp do_camelize(key), do: key
 end
