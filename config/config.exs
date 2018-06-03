@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :key_case, key: :value
+#     config :key_convert, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:key_case, :key)
+#     Application.get_env(:key_convert, :key)
 #
 # You can also configure a 3rd-party app:
 #

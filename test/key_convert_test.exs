@@ -1,29 +1,29 @@
-defmodule KeyCaseTest do
+defmodule KeyConvertTest do
   use ExUnit.Case, async: true
-  doctest KeyCase
+  doctest KeyConvert
 
   describe ".snake_case" do
     test "converts the keys to snake case" do
       input = %{totalAmount: 500}
-      assert KeyCase.snake_case(input) == %{"total_amount" => 500}
+      assert KeyConvert.snake_case(input) == %{"total_amount" => 500}
     end
 
     test "converts the keys of nested map" do
       input = %{contactInfo: %{emailAddress: "email@example.com"}}
-      assert KeyCase.snake_case(input) == %{
+      assert KeyConvert.snake_case(input) == %{
         "contact_info" => %{"email_address" => "email@example.com"}
       }
     end
 
     test "does not replace dots in the key name" do
       input = %{"email@example.com" => :email}
-      assert KeyCase.snake_case(input) == input
+      assert KeyConvert.snake_case(input) == input
     end
   end
 
   describe ".camelize" do
     test "converts the Map keys to camel case" do
-      assert KeyCase.camelize(%{total_amount: 500}) == %{"totalAmount" => 500}
+      assert KeyConvert.camelize(%{total_amount: 500}) == %{"totalAmount" => 500}
     end
 
     test "converts keys of nested map" do
@@ -34,7 +34,7 @@ defmodule KeyCaseTest do
         }
       }
 
-      assert KeyCase.camelize(input) == %{
+      assert KeyConvert.camelize(input) == %{
         "contactDetails" => %{
           "phoneNumber" => "555-55-55",
           "emailAddress" => "email@example.com"
@@ -47,7 +47,7 @@ defmodule KeyCaseTest do
     test "converts the keys based on the function provided" do
       converter = fn key -> key <> ".changed" end
       input = %{"total_amount" => 500}
-      assert KeyCase.convert(input, converter) == %{
+      assert KeyConvert.convert(input, converter) == %{
         "total_amount.changed" => 500
       }
     end
@@ -61,7 +61,7 @@ defmodule KeyCaseTest do
         }
       }
 
-      assert KeyCase.convert(input, converter) == %{
+      assert KeyConvert.convert(input, converter) == %{
         "contact_details.changed" => %{
           "phone_number.changed" => "555-55-55",
           "email_address.changed" => "email@example.com"
