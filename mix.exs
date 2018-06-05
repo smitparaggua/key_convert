@@ -11,7 +11,7 @@ defmodule KeyConvert.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
 
-      name: "KeyCase",
+      name: "KeyConvert",
       source_url: @github_url,
       homepage_url: @github_url,
       docs: [extras: ["README.md"], main: "readme"],
