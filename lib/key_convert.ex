@@ -67,9 +67,10 @@ defmodule KeyConvert do
   defp do_camelize(key), do: key
 
   @doc """
-  Converts the keys based `converter` function provided. Converter function
-  should be able to take a key as an input and return a new key which will
-  be used for the converted `Map`.
+  Converts the keys based on `converter` function provided.
+
+  Converter function should be able to take a key as an input and return a new
+  key which will be used for the converted `Map`.
 
   ## Examples
 
