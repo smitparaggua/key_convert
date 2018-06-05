@@ -56,8 +56,3 @@ append_change = fn key -> key <> ".changed" end
 KeyConvert.convert(%{"total_amount" => 500}, append_change)
 # %{"total_amount.changed" => 500}
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/key_convert](https://hexdocs.pm/key_convert).
-
