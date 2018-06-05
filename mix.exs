@@ -15,7 +15,8 @@ defmodule KeyConvert.MixProject do
       source_url: @github_url,
       homepage_url: @github_url,
       docs: [extras: ["README.md"], main: "readme"],
-      package: package()
+      package: package(),
+      description: "Convenience functions for converting Map keys"
     ]
   end
 
