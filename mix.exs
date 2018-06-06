@@ -16,7 +16,11 @@ defmodule KeyConvert.MixProject do
       homepage_url: @github_url,
       docs: [extras: ["README.md"], main: "readme"],
       package: package(),
-      description: "Convenience functions for converting Map keys"
+      description: "Convenience functions for converting Map keys",
+
+      # Coveralls
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: preferred_cli_env()
     ]
   end
 
@@ -28,7 +32,8 @@ defmodule KeyConvert.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false},
+      {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 
@@ -37,6 +42,15 @@ defmodule KeyConvert.MixProject do
       maintainers: ["John Smith Paraggua"],
       licenses: ["MIT"],
       links: %{"GitHub" => @github_url}
+    ]
+  end
+
+  defp preferred_cli_env do
+    [
+      "coveralls": :test,
+      "coveralls.detail": :test,
+      "coveralls.post": :test,
+      "coveralls.html": :test
     ]
   end
 end

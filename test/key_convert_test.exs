@@ -19,6 +19,10 @@ defmodule KeyConvertTest do
       input = %{"email@example.com" => :email}
       assert KeyConvert.snake_case(input) == input
     end
+
+    test "retains keys which are neither atoms nor strings" do
+      assert KeyConvert.snake_case(%{1 => 1}) == %{1 => 1}
+    end
   end
 
   describe ".camelize" do
@@ -40,6 +44,10 @@ defmodule KeyConvertTest do
           "emailAddress" => "email@example.com"
         }
       }
+    end
+
+    test "retains keys which are neither atoms nor strings" do
+      assert KeyConvert.camelize(%{1 => 1}) == %{1 => 1}
     end
   end
 
