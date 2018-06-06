@@ -1,5 +1,7 @@
 # KeyConvert
 
+[![Coverage Status](https://coveralls.io/repos/github/smitparaggua/key_convert/badge.svg?branch=master)](https://coveralls.io/github/smitparaggua/key_convert?branch=master)
+
 `KeyConvert` adds convenience methods for transforming keys in `Map`s.
 Nested maps will have their keys also converted (will provide a way to
 limit it to first level in the future).
