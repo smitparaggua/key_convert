@@ -67,6 +67,23 @@ defmodule KeyConvert do
   defp do_camelize(key), do: key
 
   @doc """
+  Renames the keys based on `rename_map` as lookup.
+
+  Keys not included in `rename_map` will not be changed.
+
+  ## Examples
+
+      iex> KeyConvert.rename(
+      ...>   %{amount: 500, currency: "PHP"},
+      ...>   %{amount: :value}
+      ...> )
+      %{value: 500, currency: "PHP"}
+  """
+  def rename(map, rename_map) when is_map(map) and is_map(rename_map) do
+    convert(map, fn key -> rename_map[key] || key end)
+  end
+
+  @doc """
   Converts the keys based on `converter` function provided.
 
   Converter function should be able to take a key as an input and return a new

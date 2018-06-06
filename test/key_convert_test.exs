@@ -43,6 +43,46 @@ defmodule KeyConvertTest do
     end
   end
 
+  describe ".rename" do
+    test "changes the key based on a translation map" do
+      input = %{total_amount: 500}
+      rename_map = %{total_amount: :value}
+      expected = %{value: 500}
+      assert KeyConvert.rename(input, rename_map) == expected
+    end
+
+    test "ignores any extra keys" do
+      input = %{total_amount: 500, currency: "PHP"}
+      rename_map = %{total_amount: :value}
+      expected = %{value: 500, currency: "PHP"}
+      assert KeyConvert.rename(input, rename_map) == expected
+    end
+
+    test "supports nested maps" do
+      input = %{
+        contact_details: %{
+          phone_number: "555-55-55",
+          email_address: "email@example.com"
+        }
+      }
+
+      rename_map = %{
+        contact_details: :contact,
+        phone_number: :phone,
+        email_address: :email
+      }
+
+      expected = %{
+        contact: %{
+          phone: "555-55-55",
+          email: "email@example.com"
+        }
+      }
+
+      assert KeyConvert.rename(input, rename_map) == expected
+    end
+  end
+
   describe ".convert" do
     test "converts the keys based on the function provided" do
       converter = fn key -> key <> ".changed" end
