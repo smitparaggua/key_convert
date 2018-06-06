@@ -1,5 +1,6 @@
 # KeyConvert
 
+[![Build Status](https://travis-ci.org/smitparaggua/key_convert.svg?branch=master)](https://travis-ci.org/smitparaggua/key_convert)
 [![Coverage Status](https://coveralls.io/repos/github/smitparaggua/key_convert/badge.svg?branch=master)](https://coveralls.io/github/smitparaggua/key_convert?branch=master)
 
 `KeyConvert` adds convenience methods for transforming keys in `Map`s.
