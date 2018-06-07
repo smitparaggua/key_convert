@@ -23,6 +23,12 @@ defmodule KeyConvertTest do
     test "retains keys which are neither atoms nor strings" do
       assert KeyConvert.snake_case(%{1 => 1}) == %{1 => 1}
     end
+
+    test "supports shallow mode" do
+      input = %{contactInfo: %{emailAddress: "email@example.com"}}
+      expected = %{"contact_info" => %{emailAddress: "email@example.com"}}
+      assert KeyConvert.snake_case(input, mode: :shallow) == expected
+    end
   end
 
   describe ".camelize" do
@@ -38,16 +44,24 @@ defmodule KeyConvertTest do
         }
       }
 
-      assert KeyConvert.camelize(input) == %{
+      expected = %{
         "contactDetails" => %{
           "phoneNumber" => "555-55-55",
           "emailAddress" => "email@example.com"
         }
       }
+
+      assert KeyConvert.camelize(input) == expected
     end
 
     test "retains keys which are neither atoms nor strings" do
       assert KeyConvert.camelize(%{1 => 1}) == %{1 => 1}
+    end
+
+    test "supports shallow mode" do
+      input = %{contact_info: %{email_address: "email@example.com"}}
+      expected = %{"contactInfo" => %{email_address: "email@example.com"}}
+      assert KeyConvert.camelize(input, mode: :shallow) == expected
     end
   end
 
@@ -89,6 +103,18 @@ defmodule KeyConvertTest do
 
       assert KeyConvert.rename(input, rename_map) == expected
     end
+
+    test "supports shallow mode" do
+      input = %{contact_info: %{email_address: "email@example.com"}}
+
+      rename_map = %{
+        contact_info: :contact,
+        email_address: :email
+      }
+
+      expected = %{contact: %{email_address: "email@example.com"}}
+      assert KeyConvert.rename(input, rename_map, mode: :shallow) == expected
+    end
   end
 
   describe ".convert" do
@@ -115,6 +141,13 @@ defmodule KeyConvertTest do
           "email_address.changed" => "email@example.com"
         }
       }
+    end
+
+    test "converts only first level on shallow mode" do
+      converter = fn key -> key <> ".changed" end
+      input = %{"contact_details" => %{"phone_number" => "555-55-55"}}
+      expected = %{"contact_details.changed" => %{"phone_number" => "555-55-55"}}
+      assert KeyConvert.convert(input, converter, mode: :shallow) == expected
     end
   end
 end

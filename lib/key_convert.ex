@@ -21,8 +21,8 @@ defmodule KeyConvert do
       ...> })
       %{"contact_info" => %{"email_address" => "email@example.com"}}
   """
-  def snake_case(map) when is_map(map) do
-    convert(map, &do_snake_case/1)
+  def snake_case(map, options \\ []) when is_map(map) do
+    convert(map, &do_snake_case/1, options)
   end
 
   defp do_snake_case(atom) when is_atom(atom) do
@@ -51,8 +51,8 @@ defmodule KeyConvert do
       ...> })
       %{"contactInfo" => %{"emailAddress" => "email@example.com"}}
   """
-  def camelize(map) when is_map(map) do
-    convert(map, &do_camelize/1)
+  def camelize(map, options \\ []) when is_map(map) do
+    convert(map, &do_camelize/1, options)
   end
 
   defp do_camelize(atom) when is_atom(atom) do
@@ -79,8 +79,11 @@ defmodule KeyConvert do
       ...> )
       %{value: 500, currency: "PHP"}
   """
-  def rename(map, rename_map) when is_map(map) and is_map(rename_map) do
-    convert(map, fn key -> rename_map[key] || key end)
+  def rename(map, rename_map, options \\ [])
+  when is_map(map) and is_map(rename_map) do
+
+    converter = fn key -> rename_map[key] || key end
+    convert(map, converter, options)
   end
 
   @doc """
@@ -95,13 +98,17 @@ defmodule KeyConvert do
       iex> KeyConvert.convert(%{"total_amount" => 500}, append_change)
       %{"total_amount.changed" => 500}
   """
-  def convert(map, converter) when is_map(map) and is_function(converter, 1) do
+  def convert(map, converter, options \\ [])
+  when is_map(map) and is_function(converter, 1) do
+
+    mode = Keyword.get(options, :mode, :deep)
     for {key, value} <- map, into: %{} do
       new_key = converter.(key)
-      case is_map(value) do
+      case is_map(value) && mode == :deep do
         true -> {new_key, convert(value, converter)}
         false -> {new_key, value}
       end
     end
   end
+
 end
