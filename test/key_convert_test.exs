@@ -117,6 +117,30 @@ defmodule KeyConvertTest do
     end
   end
 
+  describe ".stringify" do
+    test "converts atom keys to string" do
+      input = %{contact_info: %{email_address: "email@example.com"}}
+      expected = %{"contact_info" => %{"email_address" => "email@example.com"}}
+      assert KeyConvert.stringify(input) == expected
+    end
+
+    test "supports options" do
+      input = %{contact_info: %{email_address: "email@example.com"}}
+      expected = %{"contact_info" => %{email_address: "email@example.com"}}
+      assert KeyConvert.stringify(input, mode: :shallow) == expected
+    end
+
+    test "ignores non-atom keys" do
+      input = %{false => "test", 1 => "test-2", :atom => "test-3"}
+      expected = %{false => "test", 1 => "test-2", "atom" => "test-3"}
+      assert KeyConvert.stringify(input) == expected
+    end
+  end
+
+  describe ".atomize" do
+    # TODO
+  end
+
   describe ".convert" do
     test "converts the keys based on the function provided" do
       converter = fn key -> key <> ".changed" end

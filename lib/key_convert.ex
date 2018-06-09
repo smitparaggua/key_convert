@@ -86,6 +86,15 @@ defmodule KeyConvert do
     convert(map, converter, options)
   end
 
+  # TODO documentation
+  def stringify(map, options \\ []) do
+    convert(map, &do_stringify/1, options)
+  end
+
+  defp do_stringify(boolean) when is_boolean(boolean), do: boolean
+  defp do_stringify(atom) when is_atom(atom), do: to_string(atom)
+  defp do_stringify(non_atom), do: non_atom
+
   @doc """
   Converts the keys based on `converter` function provided.
 
