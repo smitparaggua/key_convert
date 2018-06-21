@@ -105,7 +105,17 @@ defmodule KeyConvert do
   defp do_stringify(atom) when is_atom(atom), do: to_string(atom)
   defp do_stringify(non_atom), do: non_atom
 
-  # TODO doc
+  @doc """
+  Converts string keys to atom. Non String keys are unaffected.
+
+  ## Examples
+
+      iex> KeyConvert.atomize(%{"amount" => 100})
+      %{amount: 100}
+
+      iex> KeyConvert.atomize(%{100 => "amount"})
+      %{100 => "amount"}
+  """
   def atomize(map, options \\ []) do
     convert(map, &do_atomize/1, options)
   end
