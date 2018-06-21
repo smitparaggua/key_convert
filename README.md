@@ -14,7 +14,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:key_convert, "~> 0.2.0"}
+    {:key_convert, "~> 0.3.0"}
   ]
 end
 ```
