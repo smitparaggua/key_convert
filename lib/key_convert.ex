@@ -5,7 +5,29 @@ defmodule KeyConvert do
   `Atom` keys will be converted to `String`s as atoms are not
   garbage-collected and are not meant for dynamically generated data.
 
-  It supports nested maps.
+  Key transformations are done recursively by default but can be disabled
+  through options.
+
+  ## Shared options
+
+  All of the convenience functions accept the following options:
+
+    * `:mode` - determines which keys are affected by the transformation
+      * `:deep` - keys are transformed recursively (default)
+      * `:shallow` - only first-level keys are transformed
+
+  The following shows an illustration of the usage of shared options:
+
+  ```
+  input = %{contactInfo: %{emailAddress: "email@example.com"}}
+
+  KeyConvert.snake_case(input, mode: :deep)
+  # %{"contact_info" => %{"email_address" => "email@example.com"}}
+
+  KeyConvert.snake_case(input, mode: :shallow)
+  # input = %{"contact_info" => %{emailAddress: "email@example.com"}}
+  ```
+
   """
 
   @doc """

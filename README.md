@@ -4,8 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/smitparaggua/key_convert/badge.svg?branch=master)](https://coveralls.io/github/smitparaggua/key_convert?branch=master)
 
 `KeyConvert` adds convenience methods for transforming keys in `Map`s.
-Nested maps will have their keys also converted (will provide a way to
-limit it to first level in the future).
+Transformations are done recursively by default.
 
 ## Installation
 
@@ -15,12 +14,12 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:key_convert, "~> 0.1.0"}
+    {:key_convert, "~> 0.2.0"}
   ]
 end
 ```
 
-## Usage
+## Basic Usage
 
 ### Snake Case
 
@@ -44,6 +43,20 @@ KeyConvert.camelize(%{
   contact_info: %{email_address: "email@example.com"}
 })
 # %{"contactInfo" => %{"emailAddress" => "email@example.com"}}
+```
+
+### Rename
+
+`rename` converts the keys via the `rename_map` which is used to
+determine what keys are raplaced with. Keys that are not available
+in the `rename_map` are unaffected.
+
+```
+KeyConvert.rename(
+  %{amount: 500, currency: "PHP"},
+  %{amount: :value}                # rename_map
+)
+# %{value: 500, currency: "PHP"}
 ```
 
 ### Convert
