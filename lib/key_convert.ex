@@ -86,7 +86,17 @@ defmodule KeyConvert do
     convert(map, converter, options)
   end
 
-  # TODO documentation
+  @doc """
+  Converts atom keys to string. Non atom keys are unaffected.
+
+  ## Examples
+
+      iex> KeyConvert.stringify(%{amount: 100})
+      %{"amount" => 100}
+
+      iex> KeyConvert.stringify(%{100 => "amount"})
+      %{100 => "amount"}
+  """
   def stringify(map, options \\ []) do
     convert(map, &do_stringify/1, options)
   end
@@ -94,6 +104,14 @@ defmodule KeyConvert do
   defp do_stringify(boolean) when is_boolean(boolean), do: boolean
   defp do_stringify(atom) when is_atom(atom), do: to_string(atom)
   defp do_stringify(non_atom), do: non_atom
+
+  # TODO doc
+  def atomize(map, options \\ []) do
+    convert(map, &do_atomize/1, options)
+  end
+
+  defp do_atomize(string) when is_binary(string), do: String.to_atom(string)
+  defp do_atomize(non_string), do: non_string
 
   @doc """
   Converts the keys based on `converter` function provided.

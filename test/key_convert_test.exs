@@ -138,7 +138,19 @@ defmodule KeyConvertTest do
   end
 
   describe ".atomize" do
-    # TODO
+    test "converts string keys to atom" do
+      assert KeyConvert.atomize(%{"amount" => 100}) == %{amount: 100}
+    end
+
+    test "supports options" do
+      input = %{"contact_info" => %{"email_address" => "email@example.com"}}
+      expected = %{contact_info: %{"email_address" => "email@example.com"}}
+      assert KeyConvert.atomize(input, mode: :shallow) == expected
+    end
+
+    test "ignores non-string keys" do
+      assert KeyConvert.atomize(%{100 => "amount"}) == %{100 => "amount"}
+    end
   end
 
   describe ".convert" do
