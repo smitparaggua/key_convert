@@ -128,7 +128,8 @@ defmodule KeyConvert do
   defp do_stringify(non_atom), do: non_atom
 
   @doc """
-  Converts string keys to atom. Non String keys are unaffected.
+  Converts string keys to atom. Non string keys are unaffected.
+  Use this function with caution as atoms are not garbage collected.
 
   ## Examples
 

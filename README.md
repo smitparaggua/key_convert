@@ -51,12 +51,31 @@ KeyConvert.camelize(%{
 determine what keys are raplaced with. Keys that are not available
 in the `rename_map` are unaffected.
 
-```
+```elixir
 KeyConvert.rename(
   %{amount: 500, currency: "PHP"},
   %{amount: :value}                # rename_map
 )
 # %{value: 500, currency: "PHP"}
+```
+
+### Stringify
+
+`stringify` converts atom keys into strings. Non atom keys are left unaffected.
+
+```elixir
+KeyConvert.stringify(%{amount: 100})
+# %{"amount" => 100}
+```
+
+### Atomize
+
+`atomize` converts string keys to atom. Non string keys are unaffected.
+Use this function with caution as atoms are not garbage collected.
+
+```elixir
+KeyConvert.atomize(%{"amount" => 100})
+# %{amount: 100}
 ```
 
 ### Convert
