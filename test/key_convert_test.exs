@@ -29,6 +29,12 @@ defmodule KeyConvertTest do
       expected = %{"contact_info" => %{emailAddress: "email@example.com"}}
       assert KeyConvert.snake_case(input, mode: :shallow) == expected
     end
+
+    test "supports transforming objects inside arrays" do
+      input = ["value1", %{emailAddress: "email@example.com"}]
+      expected = ["value1", %{"email_address" => "email@example.com"}]
+      assert KeyConvert.snake_case(input) == expected
+    end
   end
 
   describe ".camelize" do
@@ -62,6 +68,12 @@ defmodule KeyConvertTest do
       input = %{contact_info: %{email_address: "email@example.com"}}
       expected = %{"contactInfo" => %{email_address: "email@example.com"}}
       assert KeyConvert.camelize(input, mode: :shallow) == expected
+    end
+
+    test "supports transforming objects inside arrays" do
+      input = ["value1", %{email_address: "email@example.com"}]
+      expected = ["value1", %{"emailAddress" => "email@example.com"}]
+      assert KeyConvert.camelize(input) == expected
     end
   end
 
@@ -115,6 +127,13 @@ defmodule KeyConvertTest do
       expected = %{contact: %{email_address: "email@example.com"}}
       assert KeyConvert.rename(input, rename_map, mode: :shallow) == expected
     end
+
+    test "supports transforming objects inside arrays" do
+      input = ["value1", %{email_address: "email@example.com"}]
+      rename_map = %{email_address: :email}
+      expected = ["value1", %{email: "email@example.com"}]
+      assert KeyConvert.rename(input, rename_map) == expected
+    end
   end
 
   describe ".stringify" do
@@ -135,6 +154,12 @@ defmodule KeyConvertTest do
       expected = %{false => "test", 1 => "test-2", "atom" => "test-3"}
       assert KeyConvert.stringify(input) == expected
     end
+
+    test "supports transforming objects inside arrays" do
+      input = ["value1", %{email_address: "email@example.com"}]
+      expected = ["value1", %{"email_address" => "email@example.com"}]
+      assert KeyConvert.stringify(input) == expected
+    end
   end
 
   describe ".atomize" do
@@ -150,6 +175,12 @@ defmodule KeyConvertTest do
 
     test "ignores non-string keys" do
       assert KeyConvert.atomize(%{100 => "amount"}) == %{100 => "amount"}
+    end
+
+    test "supports transforming objects inside arrays" do
+      input = ["value1", %{"email_address" => "email@example.com"}]
+      expected = ["value1", %{email_address: "email@example.com"}]
+      assert KeyConvert.atomize(input) == expected
     end
   end
 
@@ -183,6 +214,13 @@ defmodule KeyConvertTest do
       converter = fn key -> key <> ".changed" end
       input = %{"contact_details" => %{"phone_number" => "555-55-55"}}
       expected = %{"contact_details.changed" => %{"phone_number" => "555-55-55"}}
+      assert KeyConvert.convert(input, converter, mode: :shallow) == expected
+    end
+
+    test "supports transforming objects inside arrays" do
+      converter = fn key -> key <> ".changed" end
+      input = ["value1", %{"contact_details" => %{"phone_number" => "555-55-55"}}]
+      expected = ["value1", %{"contact_details.changed" => %{"phone_number" => "555-55-55"}}]
       assert KeyConvert.convert(input, converter, mode: :shallow) == expected
     end
   end

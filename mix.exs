@@ -6,7 +6,7 @@ defmodule KeyConvert.MixProject do
   def project do
     [
       app: :key_convert,
-      version: "0.3.0",
+      version: "0.4.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -47,7 +47,7 @@ defmodule KeyConvert.MixProject do
 
   defp preferred_cli_env do
     [
-      "coveralls": :test,
+      coveralls: :test,
       "coveralls.detail": :test,
       "coveralls.post": :test,
       "coveralls.html": :test
