@@ -169,7 +169,7 @@ defmodule KeyConvert do
     mode = Keyword.get(options, :mode, :deep)
     for {key, value} <- map, into: %{} do
       new_key = converter.(key)
-      case is_map(value) && mode == :deep do
+      case (is_map(value) || is_list(value)) && mode == :deep do
         true -> {new_key, convert(value, converter)}
         false -> {new_key, value}
       end

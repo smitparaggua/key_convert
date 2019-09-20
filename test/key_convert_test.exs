@@ -31,8 +31,8 @@ defmodule KeyConvertTest do
     end
 
     test "supports transforming objects inside arrays" do
-      input = ["value1", %{emailAddress: "email@example.com"}]
-      expected = ["value1", %{"email_address" => "email@example.com"}]
+      input = %{test: ["value1", %{emailAddress: "email@example.com"}]}
+      expected = %{"test" => ["value1", %{"email_address" => "email@example.com"}]}
       assert KeyConvert.snake_case(input) == expected
     end
   end
