@@ -2,21 +2,18 @@ defmodule KeyConvert.MixProject do
   use Mix.Project
 
   @github_url "https://github.com/smitparaggua/key_convert"
+  @version "0.5.0"
 
   def project do
     [
       app: :key_convert,
-      version: "0.5.0",
+      version: @version,
       elixir: "~> 1.5",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-
       name: "KeyConvert",
-      source_url: @github_url,
-      homepage_url: @github_url,
-      docs: [extras: ["README.md"], main: "readme"],
+      docs: docs(),
       package: package(),
-      description: "Convenience functions for converting Map keys",
 
       # Coveralls
       test_coverage: [tool: ExCoveralls],
@@ -32,13 +29,14 @@ defmodule KeyConvert.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.8", only: :test}
     ]
   end
 
   defp package do
     [
+      description: "Convenience functions for converting Map keys",
       maintainers: ["John Smith Paraggua"],
       licenses: ["MIT"],
       links: %{"GitHub" => @github_url}
@@ -51,6 +49,19 @@ defmodule KeyConvert.MixProject do
       "coveralls.detail": :test,
       "coveralls.post": :test,
       "coveralls.html": :test
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "LICENSE.md": [title: "License"],
+        "README.md": [title: "Overview"]
+      ],
+      main: "readme",
+      source_url: @github_url,
+      homepage_url: @github_url,
+      formatters: ["html"]
     ]
   end
 end
