@@ -2,13 +2,18 @@
 
 [![Build Status](https://travis-ci.org/smitparaggua/key_convert.svg?branch=master)](https://travis-ci.org/smitparaggua/key_convert)
 [![Coverage Status](https://coveralls.io/repos/github/smitparaggua/key_convert/badge.svg?branch=master)](https://coveralls.io/github/smitparaggua/key_convert?branch=master)
+[![Module Version](https://img.shields.io/hexpm/v/key_convert.svg)](https://hex.pm/packages/key_convert)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/key_convert/)
+[![Total Download](https://img.shields.io/hexpm/dt/key_convert.svg)](https://hex.pm/packages/key_convert)
+[![License](https://img.shields.io/hexpm/l/key_convert.svg)](https://github.com/smitparaggua/key_convert/blob/master/LICENSE.md)
+[![Last Updated](https://img.shields.io/github/last-commit/smitparaggua/key_convert.svg)](https://github.com/smitparaggua/key_convert/commits/master)
 
 `KeyConvert` adds convenience methods for transforming keys in `Map`s.
 Transformations are done recursively by default.
 
 ## Installation
 
-The package can be installed by adding `key_convert` to your list of
+The package can be installed by adding `:key_convert` to your list of
 dependencies in `mix.exs`:
 
 ```elixir
@@ -48,13 +53,13 @@ KeyConvert.camelize(%{
 ### Rename
 
 `rename` converts the keys via the `rename_map` which is used to
-determine what keys are raplaced with. Keys that are not available
+determine what keys are replaced with. Keys that are not available
 in the `rename_map` are unaffected.
 
 ```elixir
 KeyConvert.rename(
   %{amount: 500, currency: "PHP"},
-  %{amount: :value}                # rename_map
+  %{amount: :value} # rename_map
 )
 # %{value: 500, currency: "PHP"}
 ```
@@ -91,3 +96,10 @@ append_change = fn key -> key <> ".changed" end
 KeyConvert.convert(%{"total_amount" => 500}, append_change)
 # %{"total_amount.changed" => 500}
 ```
+
+## Copyright and License
+
+Copyright (c) 2019 John Smith Paraggua
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the MIT License. See the [LICENSE.md](./LICENSE.md) file for more details.
